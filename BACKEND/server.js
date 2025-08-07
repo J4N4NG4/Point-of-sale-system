@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
+const itemRoutes = require('./routes/itemRoutes');
+
 
 dotenv.config();
 
@@ -27,7 +29,7 @@ const connectDB = async () => {
 connectDB();
 
 // Routes
-
+app.use('/api/items', itemRoutes);
 
 // Start server
 app.listen(PORT, () => {
