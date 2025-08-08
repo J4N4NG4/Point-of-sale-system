@@ -1,6 +1,19 @@
 // models/Item.js
 const mongoose = require('mongoose');
 
+const categories = [
+  'Beverages',
+  'Snacks',
+  'Dairy Products',
+  'Bakery',
+  'Frozen Foods',
+  'Household Items',
+  'Personal Care',
+  'Meat & Seafood',
+  'Fruits & Vegetables',
+  'Canned Goods'
+];
+
 const itemSchema = new mongoose.Schema({
   itemName: {
     type: String,
@@ -26,9 +39,13 @@ const itemSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
+    enum: categories, // Restrict to predefined categories
   }
 }, {
   timestamps: true
 });
 
-module.exports = mongoose.model('Item', itemSchema);
+module.exports = {
+  Item: mongoose.model('Item', itemSchema),
+  categories // Export so frontend can fetch
+};

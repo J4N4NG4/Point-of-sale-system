@@ -1,5 +1,6 @@
 // components/AddItemForm.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../styles/AddItemForm.css';
 
 const AddItemForm = () => {
@@ -12,13 +13,22 @@ const AddItemForm = () => {
     category: '',
   });
 
+  const [categories, setCategories] = useState([]);
+
+  // Fetch categories from backend
+  useEffect(() => {
+    axios.get('http://localhost:8070/api/items/categories')
+      .then(res => setCategories(res.data))
+      .catch(err => console.error('Error fetching categories:', err));
+  }, []);
+
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(formData); // Replace with API call
+    console.log(formData); // Replace with actual API call
     alert('Item added!');
   };
 
@@ -42,7 +52,12 @@ const AddItemForm = () => {
         <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} required />
 
         <label>Category</label>
-        <input type="text" name="category" value={formData.category} onChange={handleChange} required />
+        <select name="category" value={formData.category} onChange={handleChange} required>
+          <option value="">-- Select Category --</option>
+          {categories.map((cat, index) => (
+            <option key={index} value={cat}>{cat}</option>
+          ))}
+        </select>
 
         <button type="submit">Add Item</button>
       </form>

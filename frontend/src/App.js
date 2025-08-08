@@ -1,22 +1,34 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Sidebar from './component/Sidebar';
 import AddItemForm from './admin/AddItemForm';
 import './App.css';
+import Welcome from './user/Welcome';
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+
+  // Don't show Sidebar on Welcome page
+  const hideSidebar = location.pathname === '/Welcome';
+
   return (
-    <Router>
-      <div className="App">
-        <Sidebar />
-        <Routes>
-          <Route path="/" element={<Navigate to="/add-item" />} />
-          <Route path="/add-item" element={<AddItemForm />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className="App">
+      {!hideSidebar && <Sidebar />}
+
+      <Routes>
+        <Route path="/" element={<Navigate to="/add-item" />} />
+        <Route path="/add-item" element={<AddItemForm />} />
+        <Route path="/Welcome" element={<Welcome />} />
+      </Routes>
+    </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}

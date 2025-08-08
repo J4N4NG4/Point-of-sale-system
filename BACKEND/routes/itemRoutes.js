@@ -1,7 +1,12 @@
 // routes/itemRoutes.js
 const express = require('express');
 const router = express.Router();
-const Item = require('../models/Item');
+const { Item, categories } = require('../models/Item');
+
+// Get Categories
+router.get('/categories', (req, res) => {
+  res.json(categories);
+});
 
 // Create Item
 router.post('/', async (req, res) => {
