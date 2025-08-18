@@ -5,6 +5,7 @@ import Sidebar from './component/Sidebar';
 import AddItemForm from './admin/AddItemForm';
 import './App.css';
 import Welcome from './user/Welcome';
+import Product from './admin/Product';
 
 function AppContent() {
   const location = useLocation();
@@ -20,6 +21,7 @@ function AppContent() {
         <Route path="/" element={<Navigate to="/add-item" />} />
         <Route path="/add-item" element={<AddItemForm />} />
         <Route path="/Welcome" element={<Welcome />} />
+        <Route path="/products" element={<Product />} />
       </Routes>
     </div>
   );

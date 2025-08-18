@@ -1,4 +1,3 @@
-// models/Item.js
 const mongoose = require('mongoose');
 
 const categories = [
@@ -39,7 +38,7 @@ const itemSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: categories, // Restrict to predefined categories
+    enum: categories, // restrict to predefined categories
   }
 }, {
   timestamps: true
@@ -47,5 +46,5 @@ const itemSchema = new mongoose.Schema({
 
 module.exports = {
   Item: mongoose.model('Item', itemSchema),
-  categories // Export so frontend can fetch
+  categories
 };

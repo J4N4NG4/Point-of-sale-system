@@ -1,4 +1,3 @@
-// components/AddItemForm.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/AddItemForm.css';
@@ -14,52 +13,137 @@ const AddItemForm = () => {
   });
 
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   // Fetch categories from backend
   useEffect(() => {
-    axios.get('http://localhost:8070/api/items/categories')
-      .then(res => setCategories(res.data))
-      .catch(err => console.error('Error fetching categories:', err));
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/items/categories'); // adjust port if needed
+        console.log('Categories fetched:', res.data);
+        setCategories(res.data);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+        setMessage('Failed to load categories. Please check backend.');
+      }
+    };
+    fetchCategories();
   }, []);
 
+  // Handle input changes
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  // Submit new item
+  const handleSubmit = async e => {
     e.preventDefault();
-    console.log(formData); // Replace with actual API call
-    alert('Item added!');
+    setLoading(true);
+    setMessage('');
+
+    const payload = {
+      ...formData,
+      price: Number(formData.price),
+      quantity: Number(formData.quantity),
+    };
+
+    try {
+      const res = await axios.post('http://localhost:5000/api/items', payload);
+      setMessage('Item added successfully!');
+      setFormData({
+        itemName: '',
+        itemCode: '',
+        price: '',
+        image: '',
+        quantity: '',
+        category: '',
+      });
+    } catch (err) {
+      console.error('Error adding item:', err);
+      if (err.response && err.response.data && err.response.data.error) {
+        setMessage(`Failed to add item: ${err.response.data.error}`);
+      } else {
+        setMessage('Failed to add item. Please try again.');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="form-container">
       <h2>Add New Item</h2>
+
+      {message && <p className="message">{message}</p>}
+
       <form onSubmit={handleSubmit}>
         <label>Item Name</label>
-        <input type="text" name="itemName" value={formData.itemName} onChange={handleChange} required />
+        <input
+          type="text"
+          name="itemName"
+          value={formData.itemName}
+          onChange={handleChange}
+          required
+        />
 
         <label>Item Code</label>
-        <input type="text" name="itemCode" value={formData.itemCode} onChange={handleChange} required />
+        <input
+          type="text"
+          name="itemCode"
+          value={formData.itemCode}
+          onChange={handleChange}
+          required
+        />
 
         <label>Price</label>
-        <input type="number" name="price" value={formData.price} onChange={handleChange} required />
+        <input
+          type="number"
+          name="price"
+          value={formData.price}
+          min="0"
+          onChange={handleChange}
+          required
+        />
 
         <label>Image URL</label>
-        <input type="text" name="image" value={formData.image} onChange={handleChange} />
+        <input
+          type="text"
+          name="image"
+          value={formData.image}
+          onChange={handleChange}
+        />
 
         <label>Quantity</label>
-        <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} required />
+        <input
+          type="number"
+          name="quantity"
+          value={formData.quantity}
+          min="0"
+          onChange={handleChange}
+          required
+        />
 
         <label>Category</label>
-        <select name="category" value={formData.category} onChange={handleChange} required>
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+          required
+        >
           <option value="">-- Select Category --</option>
-          {categories.map((cat, index) => (
-            <option key={index} value={cat}>{cat}</option>
-          ))}
+          {categories.length > 0 ? (
+            categories.map((cat, index) => (
+              <option key={index} value={cat}>{cat}</option>
+            ))
+          ) : (
+            <option value="" disabled>Loading categories...</option>
+          )}
         </select>
 
-        <button type="submit">Add Item</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Adding...' : 'Add Item'}
+        </button>
       </form>
     </div>
   );
