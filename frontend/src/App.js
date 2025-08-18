@@ -5,13 +5,14 @@ import Sidebar from './component/Sidebar';
 import AddItemForm from './admin/AddItemForm';
 import './App.css';
 import Welcome from './user/Welcome';
+import POS from './user/POS';
 import Product from './admin/Product';
 
 function AppContent() {
   const location = useLocation();
 
-  // Don't show Sidebar on Welcome page
-  const hideSidebar = location.pathname === '/Welcome';
+  // Don't show Sidebar on Welcome or POS pages
+  const hideSidebar = location.pathname === '/Welcome' || location.pathname === '/pos';
 
   return (
     <div className="App">
@@ -21,6 +22,7 @@ function AppContent() {
         <Route path="/" element={<Navigate to="/add-item" />} />
         <Route path="/add-item" element={<AddItemForm />} />
         <Route path="/Welcome" element={<Welcome />} />
+        <Route path="/pos" element={<POS />} />
         <Route path="/products" element={<Product />} />
       </Routes>
     </div>
