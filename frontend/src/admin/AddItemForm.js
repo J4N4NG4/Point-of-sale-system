@@ -20,7 +20,7 @@ const AddItemForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/items/categories'); // adjust port if needed
+        const res = await axios.get('http://localhost:8070/api/items/categories'); // adjust port if needed
         console.log('Categories fetched:', res.data);
         setCategories(res.data);
       } catch (err) {
@@ -49,7 +49,7 @@ const AddItemForm = () => {
     };
 
     try {
-      const res = await axios.post('http://localhost:5000/api/items', payload);
+      const res = await axios.post('http://localhost:8070/api/items', payload);
       setMessage('Item added successfully!');
       setFormData({
         itemName: '',

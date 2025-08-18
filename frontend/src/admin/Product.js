@@ -12,7 +12,7 @@ const Product = () => {
 
   const fetchItems = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/items");
+      const res = await axios.get("http://localhost:8070/api/items");
       setItems(res.data);
     } catch (err) {
       console.error(err);
@@ -22,7 +22,7 @@ const Product = () => {
   // Delete item
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/items/${id}`);
+      await axios.delete(`http://localhost:8070/api/items/${id}`);
       fetchItems(); // refresh table
     } catch (err) {
       console.error(err);
