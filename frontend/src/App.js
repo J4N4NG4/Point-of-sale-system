@@ -7,6 +7,7 @@ import './App.css';
 import Welcome from './user/Welcome';
 import POS from './user/POS';
 import Product from './admin/Product';
+import Sales from './admin/Sales';
 
 function AppContent() {
   const location = useLocation();
@@ -24,6 +25,7 @@ function AppContent() {
         <Route path="/Welcome" element={<Welcome />} />
         <Route path="/pos" element={<POS />} />
         <Route path="/products" element={<Product />} />
+        <Route path="/sales" element={<Sales />} />
       </Routes>
     </div>
   );

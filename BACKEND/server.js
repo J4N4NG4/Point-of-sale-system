@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 
 const itemRoutes = require('./routes/itemRoutes');
+const saleRoutes = require('./routes/saleRoutes');
 
 
 dotenv.config();
@@ -30,6 +31,7 @@ connectDB();
 
 // Routes
 app.use('/api/items', itemRoutes);
+app.use('/api/sales', saleRoutes);
 
 // Start server
 app.listen(PORT, () => {

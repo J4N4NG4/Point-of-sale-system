@@ -146,6 +146,18 @@ const POS = () => {
         await axios.put(`${API_BASE}/api/items/${u.id}`, { quantity: u.newQuantity });
       }
 
+      // Record sale
+      const salePayload = {
+        items: cart.map((line) => ({
+          itemId: line._id,
+          itemName: line.itemName,
+          price: line.price,
+          quantity: line.quantity,
+        })),
+        total: cartTotal,
+      };
+      await axios.post(`${API_BASE}/api/sales`, salePayload);
+
       // Refresh items, clear cart
       const refreshed = await axios.get(`${API_BASE}/api/items`);
       setItems(refreshed.data || []);
