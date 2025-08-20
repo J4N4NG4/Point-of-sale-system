@@ -11,7 +11,7 @@ const Sidebar = () => {
         Admin Panel
       </div>
       <ul className="sidebar-menu">
-        <li><Link to="/"><FaTachometerAlt className="icon" /> Dashboard</Link></li>
+        <li><Link to="/dashboard"><FaTachometerAlt className="icon" /> Dashboard</Link></li>
         <li><Link to="/products"><FaBoxOpen className="icon" /> Products</Link></li>
         <li><Link to="/pos"><FaCashRegister className="icon" /> POS</Link></li>
         <li><Link to="/sales"><FaChartLine className="icon" /> Sales</Link></li>

@@ -6,7 +6,8 @@ const AddItemForm = () => {
   const [formData, setFormData] = useState({
     itemName: '',
     itemCode: '',
-    price: '',
+    buyPrice: '',
+    sellPrice: '',
     image: '',
     quantity: '',
     category: '',
@@ -42,9 +43,26 @@ const AddItemForm = () => {
     setLoading(true);
     setMessage('');
 
+    // Validate prices
+    const buyPrice = Number(formData.buyPrice);
+    const sellPrice = Number(formData.sellPrice);
+
+    if (buyPrice < 0 || sellPrice < 0) {
+      setMessage('Prices cannot be negative.');
+      setLoading(false);
+      return;
+    }
+
+    if (sellPrice < buyPrice) {
+      setMessage('Sell price should be greater than or equal to buy price.');
+      setLoading(false);
+      return;
+    }
+
     const payload = {
       ...formData,
-      price: Number(formData.price),
+      buyPrice: buyPrice,
+      sellPrice: sellPrice,
       quantity: Number(formData.quantity),
     };
 
@@ -54,7 +72,8 @@ const AddItemForm = () => {
       setFormData({
         itemName: '',
         itemCode: '',
-        price: '',
+        buyPrice: '',
+        sellPrice: '',
         image: '',
         quantity: '',
         category: '',
@@ -96,12 +115,24 @@ const AddItemForm = () => {
           required
         />
 
-        <label>Price</label>
+        <label>Buy Price</label>
         <input
           type="number"
-          name="price"
-          value={formData.price}
+          name="buyPrice"
+          value={formData.buyPrice}
           min="0"
+          step="0.01"
+          onChange={handleChange}
+          required
+        />
+
+        <label>Sell Price</label>
+        <input
+          type="number"
+          name="sellPrice"
+          value={formData.sellPrice}
+          min="0"
+          step="0.01"
           onChange={handleChange}
           required
         />

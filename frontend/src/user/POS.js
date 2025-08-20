@@ -11,7 +11,7 @@ const POS = () => {
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
 
-  const [cart, setCart] = useState([]); // [{ _id, itemName, price, quantity, stock, image }]
+  const [cart, setCart] = useState([]); // [{ _id, itemName, sellPrice, quantity, stock, image }]
   const [message, setMessage] = useState('');
   const [checkingOut, setCheckingOut] = useState(false);
 
@@ -50,8 +50,22 @@ const POS = () => {
     });
   }, [items, searchText, selectedCategory]);
 
+  // Helper function to get the selling price (with fallback to old price field)
+  const getSellPrice = (item) => {
+    if (item.sellPrice !== undefined && item.sellPrice !== null) {
+      return item.sellPrice;
+    }
+    // Fallback to old price field if sellPrice doesn't exist
+    if (item.price !== undefined && item.price !== null) {
+      return item.price;
+    }
+    return 0; // Default fallback
+  };
+
   const addToCart = (item) => {
     setMessage('');
+    const sellPrice = getSellPrice(item);
+    
     setCart((prev) => {
       const existing = prev.find((c) => c._id === item._id);
       if (existing) {
@@ -71,7 +85,7 @@ const POS = () => {
         {
           _id: item._id,
           itemName: item.itemName,
-          price: item.price,
+          sellPrice: sellPrice,
           quantity: 1,
           stock: item.quantity,
           image: item.image,
@@ -110,7 +124,7 @@ const POS = () => {
   };
 
   const cartTotal = useMemo(() => {
-    return cart.reduce((sum, line) => sum + line.price * line.quantity, 0);
+    return cart.reduce((sum, line) => sum + line.sellPrice * line.quantity, 0);
   }, [cart]);
 
   const handleCheckout = async () => {
@@ -151,7 +165,7 @@ const POS = () => {
         items: cart.map((line) => ({
           itemId: line._id,
           itemName: line.itemName,
-          price: line.price,
+          price: line.sellPrice,
           quantity: line.quantity,
         })),
         total: cartTotal,
@@ -213,32 +227,35 @@ const POS = () => {
           </div>
 
           <div className="product-grid">
-            {filteredItems.map((it) => (
-              <div key={it._id} className={`product-card ${it.quantity === 0 ? 'out' : ''}`}>
-                <div className="product-thumb">
-                  {it.image ? (
-                    <img src={it.image} alt={it.itemName} />
-                  ) : (
-                    <div className="no-image">No Image</div>
-                  )}
-                </div>
-                <div className="product-info">
-                  <div className="product-name">{it.itemName}</div>
-                  <div className="product-meta">
-                    <span className="code">{it.itemCode}</span>
-                    <span className="price">${it.price.toFixed(2)}</span>
+            {filteredItems.map((it) => {
+              const sellPrice = getSellPrice(it);
+              return (
+                <div key={it._id} className={`product-card ${it.quantity === 0 ? 'out' : ''}`}>
+                  <div className="product-thumb">
+                    {it.image ? (
+                      <img src={it.image} alt={it.itemName} />
+                    ) : (
+                      <div className="no-image">No Image</div>
+                    )}
                   </div>
-                  <div className="product-stock">In stock: {it.quantity}</div>
+                  <div className="product-info">
+                    <div className="product-name">{it.itemName}</div>
+                    <div className="product-meta">
+                      <span className="code">{it.itemCode}</span>
+                      <span className="price">${sellPrice.toFixed(2)}</span>
+                    </div>
+                    <div className="product-stock">In stock: {it.quantity}</div>
+                  </div>
+                  <button
+                    className="add-btn"
+                    disabled={it.quantity === 0}
+                    onClick={() => addToCart(it)}
+                  >
+                    {it.quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                  </button>
                 </div>
-                <button
-                  className="add-btn"
-                  disabled={it.quantity === 0}
-                  onClick={() => addToCart(it)}
-                >
-                  {it.quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
-                </button>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -254,7 +271,7 @@ const POS = () => {
                 <div key={line._id} className="cart-line">
                   <div className="line-main">
                     <div className="line-title">{line.itemName}</div>
-                    <div className="line-meta">${line.price.toFixed(2)}</div>
+                    <div className="line-meta">${line.sellPrice.toFixed(2)}</div>
                   </div>
                   <div className="line-actions">
                     <button className="qty-btn" onClick={() => decQty(line)}>-</button>
@@ -273,7 +290,7 @@ const POS = () => {
                     <button className="qty-btn" onClick={() => incQty(line)}>+</button>
                     <button className="remove-btn" onClick={() => removeFromCart(line._id)}>Remove</button>
                   </div>
-                  <div className="line-subtotal">${(line.price * line.quantity).toFixed(2)}</div>
+                  <div className="line-subtotal">${(line.sellPrice * line.quantity).toFixed(2)}</div>
                 </div>
               ))
             )}

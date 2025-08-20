@@ -34,6 +34,14 @@ const Product = () => {
     alert(`Edit feature coming soon for item ID: ${id}`);
   };
 
+  // Helper function to safely format price
+  const formatPrice = (price) => {
+    if (price === undefined || price === null) {
+      return 'N/A';
+    }
+    return Number(price).toFixed(2);
+  };
+
   return (
     <div className="product-container">
       <h2>Items List</h2>
@@ -46,7 +54,8 @@ const Product = () => {
             <th>Item Code</th>
             <th>Item Name</th>
             <th>Category</th>
-            <th>Price ($)</th>
+            <th>Buy Price ($)</th>
+            <th>Sell Price ($)</th>
             <th>Quantity</th>
             <th>Actions</th>
           </tr>
@@ -65,7 +74,8 @@ const Product = () => {
                 <td>{item.itemCode}</td>
                 <td>{item.itemName}</td>
                 <td>{item.category}</td>
-                <td>{item.price.toFixed(2)}</td>
+                <td>{formatPrice(item.buyPrice)}</td>
+                <td>{formatPrice(item.sellPrice)}</td>
                 <td>{item.quantity}</td>
                 <td>
                   <button className="edit-btn" onClick={() => handleEdit(item._id)}>
@@ -79,7 +89,7 @@ const Product = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="7">No items found</td>
+              <td colSpan="8">No items found</td>
             </tr>
           )}
         </tbody>

@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Sidebar from './component/Sidebar';
 import AddItemForm from './admin/AddItemForm';
+import Dashboard from './admin/Dashboard';
 import './App.css';
 import Welcome from './user/Welcome';
 import POS from './user/POS';
@@ -20,7 +21,8 @@ function AppContent() {
       {!hideSidebar && <Sidebar />}
 
       <Routes>
-        <Route path="/" element={<Navigate to="/add-item" />} />
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/add-item" element={<AddItemForm />} />
         <Route path="/Welcome" element={<Welcome />} />
         <Route path="/pos" element={<POS />} />
