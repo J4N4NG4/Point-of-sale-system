@@ -21,7 +21,7 @@ function AppContent() {
       {!hideSidebar && <Sidebar />}
 
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/" element={<Navigate to="/Welcome" />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/add-item" element={<AddItemForm />} />
         <Route path="/Welcome" element={<Welcome />} />
