@@ -1,5 +1,5 @@
 .product-container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 40px auto;
   padding: 20px;
   background: #ffffff;
@@ -13,49 +13,105 @@ h2 {
   color: #333;
 }
 
-/* Table Styling */
-.product-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 15px;
+/* Toolbar */
+.product-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
 }
 
-.product-table th,
-.product-table td {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.product-table th {
-  background: #f4f4f4;
-  color: #333;
-}
-
-/* Item Image */
-.item-img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
+.product-search {
+  height: 38px;
+  border: 1.5px solid #e1e8ed;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  padding: 0 12px;
+  outline: none;
 }
 
-/* Action Buttons */
+/* Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.product-card {
+  border: 1px solid #ecf0f1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-thumb {
+  width: 100%;
+  height: 160px;
+  background: #f5f7fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.no-image {
+  color: #95a5a6;
+}
+
+.product-info {
+  padding: 12px;
+}
+
+.product-name {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.product-meta {
+  font-size: 12px;
+  color: #7f8c8d;
+  display: flex;
+  justify-content: space-between;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.price-row .buy { color: #c0392b; }
+.price-row .sell { color: #27ae60; }
+
+.stock {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #2c3e50;
+}
+
+.product-actions {
+  margin-top: auto;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Buttons (reuse existing styles) */
 .edit-btn {
   background: #ff9800;
   color: white;
   padding: 6px 10px;
   border: none;
   border-radius: 6px;
-  margin-right: 6px;
   cursor: pointer;
 }
 
-.edit-btn:hover {
-  background: #e68900;
-}
+.edit-btn:hover { background: #e68900; }
 
 .delete-btn {
   background: #f44336;
@@ -66,6 +122,45 @@ h2 {
   cursor: pointer;
 }
 
-.delete-btn:hover {
-  background: #d32f2f;
+.delete-btn:hover { background: #d32f2f; }
+
+/* Modal */
+.product-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
+
+.product-modal-content {
+  background: #fff;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.product-modal-content h3 {
+  margin-top: 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-row { display: flex; flex-direction: column; }
+.form-row label { font-size: 12px; color: #7f8c8d; margin-bottom: 4px; }
+.form-row input { height: 38px; border: 1.5px solid #e1e8ed; border-radius: 8px; padding: 0 10px; }
+
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; }
+
+/* Keep legacy table styles in case needed elsewhere */
+.product-table { width: 100%; border-collapse: collapse; font-size: 15px; display:none; }
+.product-table th, .product-table td { padding: 12px; border: 1px solid #ddd; text-align: center; vertical-align: middle; }
+.product-table th { background: #f4f4f4; color: #333; }
+.item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #ccc; }

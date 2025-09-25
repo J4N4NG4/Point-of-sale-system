@@ -12,6 +12,7 @@ import Product from './admin/Product';
 import Sales from './admin/Sales';
 import Signup from './user/Signup';
 import Login from './user/Login';
+import UserManagement from './admin/UserManagement';
 
 function AppContent() {
   const location = useLocation();
@@ -32,6 +33,7 @@ function AppContent() {
         <Route path="/pos" element={<POS />} />
         <Route path="/products" element={<Product />} />
         <Route path="/sales" element={<Sales />} />
+        <Route path="/users" element={<UserManagement />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
       </Routes>

@@ -81,4 +81,56 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// GET /api/users
+// List users (omit password in response)
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find({}, { password: 0 }).sort({ createdAt: -1 });
+    res.json(users);
+  } catch (err) {
+    console.error('List users error:', err);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
+// PUT /api/users/:id
+// Update user fields (fullName, username, role, optionally password)
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { fullName, username, role, password } = req.body || {};
+
+    const update = {};
+    if (fullName !== undefined) update.fullName = fullName.trim();
+    if (username !== undefined) update.username = username.trim();
+    if (role !== undefined) update.role = role;
+    if (password !== undefined && password !== '') update.password = password; // hash in prod
+
+    const updated = await User.findByIdAndUpdate(id, update, { new: true, runValidators: true, context: 'query' });
+    if (!updated) return res.status(404).json({ error: 'User not found' });
+
+    const { password: _, ...safe } = updated.toObject();
+    res.json(safe);
+  } catch (err) {
+    console.error('Update user error:', err);
+    if (err && err.code === 11000) {
+      return res.status(409).json({ error: 'Username is already taken' });
+    }
+    res.status(400).json({ error: err.message || 'Failed to update user' });
+  }
+});
+
+// DELETE /api/users/:id
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await User.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).json({ error: 'User not found' });
+    res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    console.error('Delete user error:', err);
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
 module.exports = router;
