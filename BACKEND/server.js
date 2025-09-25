@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const itemRoutes = require('./routes/itemRoutes');
 const saleRoutes = require('./routes/saleRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const userRoutes = require('./routes/userRoute');
 
 
 dotenv.config();
@@ -34,6 +35,7 @@ connectDB();
 app.use('/api/items', itemRoutes);
 app.use('/api/sales', saleRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/users', userRoutes);
 
 // Start server
 app.listen(PORT, () => {

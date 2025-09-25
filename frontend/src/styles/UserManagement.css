@@ -1,0 +1,152 @@
+/* User Management Styles */
+.um-container {
+  padding: 20px;
+  margin-left: 220px;
+  width: calc(100% - 220px);
+  box-sizing: border-box;
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+.um-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.um-header h2 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.um-search {
+  height: 38px;
+  padding: 0 12px;
+  border: 1.5px solid #e1e8ed;
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+}
+
+.um-table-wrap {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.um-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.um-table th, .um-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #ecf0f1;
+  text-align: left;
+}
+
+.um-table th {
+  background: #f8f9fa;
+  color: #2c3e50;
+}
+
+.um-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #95a5a6;
+  background: #fff;
+  color: #2c3e50;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.um-btn.primary {
+  border-color: #1abc9c;
+  color: #fff;
+  background: #1abc9c;
+}
+
+.um-btn.danger {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  background: #fff;
+}
+
+.um-btn.danger:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.no-data {
+  text-align: center;
+  color: #7f8c8d;
+}
+
+/* Modal */
+.um-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.um-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 520px;
+  padding: 20px;
+}
+
+.um-modal-content h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
+.um-form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.um-form-row label {
+  font-size: 13px;
+  color: #7f8c8d;
+  margin-bottom: 6px;
+}
+
+.um-form-row input, .um-form-row select {
+  height: 40px;
+  border: 1.5px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 0 10px;
+  outline: none;
+}
+
+.um-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.um-alert {
+  background: #fdecea;
+  color: #c0392b;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .um-container {
+    margin-left: 0;
+    width: 100%;
+  }
+}
