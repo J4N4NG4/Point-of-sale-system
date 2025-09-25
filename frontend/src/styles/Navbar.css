@@ -56,6 +56,19 @@
   gap: 10px;
 }
 
+.nav-admin-btn {
+  background: #1abc9c;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-admin-btn:hover {
+  background: #16a085;
+}
+
 .nav-username {
   font-size: 14px;
 }

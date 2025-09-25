@@ -50,6 +50,9 @@ const Navbar = () => {
           )}
         </ul>
         <div className="nav-user">
+          {user && (
+            <Link to="/dashboard" className="nav-admin-btn">Admin Panel</Link>
+          )}
           {user ? (
             <>
               <span className="nav-username">{user.fullName} ({user.role})</span>
